@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JaiClub Playable Demo</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0d0e1d;color:#fff;font-family:Arial,sans-serif}.app{max-width:700px;margin:auto;min-height:100vh;background:#17172c}
+header{height:72px;background:linear-gradient(90deg,#343b9c,#702ca8,#332a77);display:flex;align-items:center;justify-content:space-between;padding:0 12px;position:sticky;top:0;z-index:5}.brand{font-weight:900;font-size:21px}.brand b{color:#ffd74d}.pill{background:#292565;border:1px solid #6254bd;padding:9px 12px;border-radius:22px;font-weight:bold}
+main{padding:14px 14px 95px}.screen{display:none}.screen.active{display:block}.hero,.gamebox{border-radius:17px;padding:20px;background:linear-gradient(135deg,#07183d,#23317f,#6a2ca5);margin-bottom:14px}.hero h1{margin:0 0 8px;font-size:27px}.hero p{color:#ddd}.btn{border:0;border-radius:24px;padding:12px 18px;color:#fff;font-weight:800;background:#7457ed}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.gamecard{height:150px;border:0;border-radius:14px;color:#fff;text-align:left;padding:12px;font-weight:900;background:linear-gradient(145deg,#b42a54,#321b55)}.gamecard:nth-child(2){background:linear-gradient(145deg,#ef6e92,#7541c1)}.gamecard:nth-child(3){background:linear-gradient(145deg,#eaa02d,#bd3b1d)}.gamecard:nth-child(4){background:linear-gradient(145deg,#a9df59,#2b8154)}.gamecard:nth-child(5){background:linear-gradient(145deg,#684a25,#1c1d2b)}.gamecard:nth-child(6){background:linear-gradient(145deg,#147b75,#1a317d)}
+h2{margin:14px 0 10px}.panel{background:#25234e;border-radius:15px;padding:15px;margin-bottom:12px}.balance{font-size:30px;font-weight:900}.actions,.colors,.mult{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.actions{grid-template-columns:1fr 1fr}.action,.choice{border:0;border-radius:12px;padding:13px;color:#fff;font-weight:800}.green{background:#16b85c}.red{background:#f05560}.violet{background:#8054e7}.orange{background:#ee9b37}.blue{background:#418ee6}.dark{background:#35304f}.nums{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:12px}.num{border:0;aspect-ratio:1;border-radius:50%;background:#6540bd;color:#fff;font-size:21px;font-weight:bold}.timer{font-size:29px;font-weight:900;text-align:center;margin:8px}.result{text-align:center;font-size:28px;font-weight:900;margin:12px}.aviator{height:230px;border-radius:16px;background:radial-gradient(circle at 30% 75%,#ff8b3d,transparent 15%),linear-gradient(145deg,#101b48,#1d4c87 55%,#7420a4);position:relative;overflow:hidden}.multiplier{position:absolute;inset:0;display:grid;place-items:center;font-size:46px;font-weight:900}.plane{position:absolute;left:10%;bottom:20%;font-size:40px}.history{background:#25234e;border-radius:15px;overflow:hidden}.row{padding:13px;border-bottom:1px solid #3b3760;display:flex;justify-content:space-between}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(700px,100%);height:78px;background:linear-gradient(90deg,#353a90,#59268c,#353a90);display:grid;grid-template-columns:repeat(5,1fr);z-index:10}.bottom button{border:0;background:none;color:#c4c1d9;font-size:12px}.bottom b{display:block;font-size:23px;margin-bottom:4px}.muted{color:#aaa9c2;font-size:13px}.notice{text-align:center;color:#aaa9c2;font-size:12px;margin:10px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="pill">🪙 <span id="coins">1000</span></div><div class="brand">JAI<b>★</b>CLUB</div><div class="pill">DEMO</div></header>
+<main>
+<section id="home" class="screen active">
+<div class="hero"><h1>Playable Games</h1><p>Practice with demo coins. No real money.</p></div>
+<div class="grid">
+<button class="gamecard" onclick="show('wingo')">🎯<br>WINGO 30SEC<br><small>Play Demo</small></button>
+<button class="gamecard" onclick="show('aviator')">✈️<br>AVIATOR<br><small>Play Demo</small></button>
+<button class="gamecard" onclick="show('lottery')">🎱<br>LOTTERY<br><small>Play Demo</small></button>
+<button class="gamecard" onclick="show('cricket')">🏏<br>CRICKET<br><small>Play Demo</small></button>
+<button class="gamecard" onclick="show('mini')">🎯<br>MINI GAME<br><small>Play Demo</small></button>
+<button class="gamecard" onclick="show('kraken')">🐉<br>KRAKEN<br><small>Play Demo</small></button>
+</div></section>
+
+<section id="wingo" class="screen">
+<button class="btn" onclick="show('home')">← Home</button><div class="gamebox"><h2>Wingo 30sec</h2><div class="timer" id="wt">30</div><div class="result" id="wr">Choose a number</div></div>
+<div class="panel"><h3>Color</h3><div class="colors"><button class="choice green" onclick="wingoColor('Green')">Green</button><button class="choice violet" onclick="wingoColor('Violet')">Violet</button><button class="choice red" onclick="wingoColor('Red')">Red</button></div><h3>Number</h3><div class="nums" id="nums"></div></div><div class="notice">Demo result only — no wagering.</div></section>
+
+<section id="aviator" class="screen">
+<button class="btn" onclick="show('home')">← Home</button><div class="gamebox"><h2>Aviator Demo</h2><div class="aviator"><div class="multiplier" id="am">1.00x</div><div class="plane">✈️</div></div><div class="actions" style="margin-top:12px"><button class="action violet" onclick="aviatorStart()">Start Round</button><button class="action orange" onclick="aviatorCash()">Cash Out</button></div><div class="result" id="ar">Demo round ready</div></div><div class="notice">Multiplier is simulated with demo coins.</div></section>
+
+<section id="lottery" class="screen">
+<button class="btn" onclick="show('home')">← Home</button><div class="gamebox"><h2>Lottery Demo</h2><p>Pick a number, then draw.</p><div class="nums" id="lotnums"></div><button class="btn" onclick="lotteryDraw()" style="width:100%;margin-top:12px">Draw Number</button><div class="result" id="lr">—</div></div></section>
+
+<section id="cricket" class="screen">
+<button class="btn" onclick="show('home')">← Home</button><div class="gamebox"><h2>Cricket Mini Game</h2><p>Choose your shot.</p><div class="actions"><button class="action green" onclick="cricket('1')">1 Run</button><button class="action blue" onclick="cricket('4')">Four</button><button class="action orange" onclick="cricket('6')">Six</button><button class="action red" onclick="cricket('W')">Defend</button></div><div class="result" id="cr">Score: 0</div></div></section>
+
+<section id="mini" class="screen"><button class="btn" onclick="show('home')">← Home</button><div class="gamebox"><h2>Mini Tap Game</h2><p>Tap the target as many times as you can.</p><button class="btn violet" onclick="tapGame()" style="font-size:28px;width:100%">🎯 TAP!</button><div class="result" id="tr">Score: 0</div></div></section>
+
+<section id="kraken" class="screen"><button class="btn" onclick="show('home')">← Home</button><div class="gamebox"><h2>Kraken Demo</h2><p>Pick one chest.</p><div class="actions"><button class="action blue" onclick="kraken(1)">🌊 Chest 1</button><button class="action violet" onclick="kraken(2)">🐙 Chest 2</button></div><div class="result" id="kr">Choose a chest</div></div></section>
+
+<section id="wallet" class="screen"><div class="gamebox"><h2>Demo Wallet</h2><div class="balance"><span id="coins2">1000</span> Demo Coins</div></div><div class="actions"><button class="action green" onclick="demoDeposit()">Deposit Demo +100</button><button class="action red" onclick="demoWithdraw()">Withdraw Demo -100</button></div><div class="history" style="margin-top:12px"><div class="row"><span>Demo balance</span><b id="walletCoins">1000</b></div></div><div class="notice">No real payments or withdrawals.</div></section>
+
+<section id="account" class="screen"><div class="panel"><div style="font-size:48px">👤</div><h2>MEMBER</h2><div class="muted">VIP 1 · Demo account</div></div></section>
+</main>
+<nav class="bottom"><button onclick="show('home')"><b>🎮</b>Home</button><button onclick="show('lottery')"><b>🎁</b>Games</button><button onclick="show('aviator')"><b>✈️</b>Aviator</button><button onclick="show('wallet')"><b>👛</b>Wallet</button><button onclick="show('account')"><b>👤</b>Account</button></nav>
+</div>
+<script>
+let coins=1000, wt=30, wtimer=null, chosen=null, aTimer=null, aValue=1, aRunning=false, aStartCoins=0, cricketScore=0, tapScore=0;
+const $=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');if(id==='wingo')startWingo();update()}
+function update(){['coins','coins2','walletCoins'].forEach(id=>$(id).textContent=coins)}
+function spend(n){if(coins<n){alert('Demo coins kam hain');return false}coins-=n;update();return true}
+function add(n){coins+=n;update()}
+function startWingo(){clearInterval(wtimer);wt=30;$('wt').textContent=wt;$('wr').textContent='Choose a number';chosen=null;wtimer=setInterval(()=>{wt--; $('wt').textContent=wt;if(wt<=0){clearInterval(wtimer);let r=Math.floor(Math.random()*10);$('wr').textContent='Result: '+r+(chosen===r?' — You matched!':'');if(chosen===r)add(50)}},1000)}
+for(let i=0;i<10;i++){let b=document.createElement('button');b.className='num';b.textContent=i;b.onclick=()=>{if(spend(10)){chosen=i;$('wr').textContent='Selected: '+i+' (10 coins)'}};$('nums').appendChild(b);let c=b.cloneNode(true);c.onclick=()=>{$('lr').textContent='Selected: '+i};$('lotnums').appendChild(c)}
+function wingoColor(c){$('wr').textContent='Color selected: '+c}
+function aviatorStart(){if(aRunning)return;if(!spend(20))return;aRunning=true;aValue=1;aStartCoins=20;$('ar').textContent='Round running...';clearInterval(aTimer);aTimer=setInterval(()=>{aValue+=Math.random()*.18;$('am').textContent=aValue.toFixed(2)+'x';if(aValue>=5.5){clearInterval(aTimer);aRunning=false;$('ar').textContent='Crashed at '+aValue.toFixed(2)+'x'}},500)}
+function aviatorCash(){if(!aRunning){$('ar').textContent='Start a round first';return}clearInterval(aTimer);aRunning=false;let win=Math.floor(aStartCoins*aValue*1.5);add(win);$('ar').textContent='Demo cash-out: +'+win+' coins at '+aValue.toFixed(2)+'x'}
+function lotteryDraw(){let r=Math.floor(Math.random()*10);$('lr').textContent='Draw: '+r}
+function cricket(x){let r=['1','4','6','W'][Math.floor(Math.random()*4)];if(r==='W'){cricketScore=0}else{cricketScore+=Number(r)}$('cr').textContent='Score: '+cricketScore+' · Ball: '+r}
+function tapGame(){tapScore++;$('tr').textContent='Score: '+tapScore;if(tapScore%10===0)add(5)}
+function kraken(n){let r=Math.floor(Math.random()*100)+1;let msg=r>65?'🎉 Treasure +30 demo coins':'🌊 Empty chest';if(r>65)add(30);$('kr').textContent=msg}
+function demoDeposit(){add(100);alert('+100 demo coins')}
+function demoWithdraw(){if(spend(100))alert('-100 demo coins (demo only)')}
+update();
+</script>
+</body></html>
